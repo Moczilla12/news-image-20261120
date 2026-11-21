@@ -83,7 +83,7 @@ def main():
     stories = {s["n"]: s for s in man["stories"]}
     leads = [stories[n] for n in (1, 2, 3)]
     cards = [stories[n] for n in range(4, 14)]
-    briefs = [stories[n] for n in range(14, 23)]
+    briefs = [stories[n] for n in range(14, 31)]
     numbers = man["by_the_numbers"]
     date_check = man["date_check_excluded"]
 
@@ -100,7 +100,7 @@ def main():
     y += 6
     draw_centered(
         d, y,
-        "A cyclone comes ashore in India · Missiles rain on Kyiv · Taiwan stocks crash 6%",
+        "A cyclone comes ashore in India · Missiles rain on Kyiv · The AI sell-off goes global",
         F_REG(15), fill=(60, 60, 60),
     )
     y += 22
@@ -181,7 +181,7 @@ def main():
             cy += 12
         if i:
             d.line([(x0 - 6, y), (x0 - 6, y + 34)], fill=LIGHT_GREY, width=1)
-    y += 42
+    y += 38
     d.line([(MARGIN, y), (W - MARGIN, y)], fill=INK, width=2)
     y += 6
 
@@ -216,7 +216,7 @@ def main():
 
     # ---------- DOTTED WORLD MAP + PINS ----------
     map_y = y
-    map_h = 76
+    map_h = 62
     d.text((MARGIN, map_y), "WHERE IT HAPPENED — 20 NOVEMBER 2026  (positions approximate)",
            font=F_BOLD(12), fill=INK)
     map_y += 15
@@ -224,7 +224,7 @@ def main():
     y = map_y + map_h - 15 + 4
 
     # ---------- UTC TIMELINE (staggered lead markers) ----------
-    d.text((MARGIN, y), "WHEN — UTC TIMELINE  (1 Akvan 02:00 · 2 Kyiv 01:22 · 3 Taiex 01:00)",
+    d.text((MARGIN, y), "WHEN — UTC TIMELINE  (1 Akvan 02:00 · 2 Kyiv 01:22 · 3 AI rout 21:00)",
            font=F_BOLD(12), fill=INK)
     y += 14
     tl_y = y
@@ -242,7 +242,7 @@ def main():
         frac = (hh * 60 + mm) / 1440
         x = MARGIN + int(CW * frac)
         d.ellipse([x - 5, tl_y + 3, x + 5, tl_y + 13], fill=RED)
-    y = tl_y + 28
+    y = tl_y + 24
 
     # ---------- ALSO ON 20 NOVEMBER ----------
     d.line([(MARGIN, y), (W - MARGIN, y)], fill=INK, width=2)
@@ -260,8 +260,8 @@ def main():
             while d.textlength(txt, font=F_REG(11)) > col_w2 - 14 and len(txt) > 10:
                 txt = txt.rsplit(" ", 1)[0] + "…"
             d.text((x0, by), txt, font=F_REG(11), fill=INK)
-            by += 12
-    y += per_col * 12 + 3
+            by += 11
+    y += per_col * 11 + 3
 
     # ---------- FOOTER: DATE CHECK (red box) + SOURCES ----------
     d.line([(MARGIN, y), (W - MARGIN, y)], fill=INK, width=2)
@@ -293,7 +293,8 @@ def main():
     )
     y += 17
     src = ("Sources: Reuters · AP · AFP · IMD · USGS · UN News · RSMC Nadi · JTWC · Le Monde · "
-           "ANSA · CGIL · ESA · UNICEF · ATP · Deadline · CoinGecko · CNN · RealGM. "
+           "ANSA · CGIL · ESA · UNICEF · ATP · TheWrap · CoinGecko · CNN · RealGM · Morningstar · "
+           "Investopedia · tml.news · dpa-AFX. "
            "Full source list in SOURCES.md. Original drawings.")
     lines = wrap(d, src, F_REG(10), CW)
     for ln in lines:
@@ -361,8 +362,8 @@ def draw_hero_art(d, idx, x0, y0, w, h):
             top, bot = min(oy, cy_), max(oy, cy_)
             d.line([(bx + 7, top - 6), (bx + 7, bot + 6)], fill=RED, width=2)
             d.rectangle([bx, top, bx + 14, bot], fill=RED)
-        d.text((x0 + 12, y0 + h - 26), "-6%", font=F_TITLE(22), fill=RED)
-        d.text((x0 + 168, y0 + h - 22), "36,096", font=F_BOLD(12), fill=RED)
+        d.text((x0 + 12, y0 + h - 26), "-6.2%", font=F_TITLE(22), fill=RED)
+        d.text((x0 + 168, y0 + h - 22), "36,033", font=F_BOLD(12), fill=RED)
 
 
 def draw_card_art(d, n, x0, y0, w, h):
@@ -390,20 +391,26 @@ def draw_card_art(d, n, x0, y0, w, h):
         d.line([(cx - 10, cy - 3), (cx + 10, cy - 3)], fill=INK, width=1)
         d.line([(cx - 10, cy + 3), (cx + 10, cy + 3)], fill=INK, width=1)
         d.polygon([(cx + 14, cy - 10), (cx + 17, cy - 17), (cx + 20, cy - 10)], fill=RED)
-    elif n == 9:  # two flags
-        d.line([(cx - 14, cy - 10), (cx - 14, cy + 10)], fill=INK, width=2)
-        d.line([(cx + 6, cy - 10), (cx + 6, cy + 10)], fill=INK, width=2)
-        d.polygon([(cx - 14, cy - 10), (cx + 2, cy - 6), (cx - 14, cy - 2)], fill=BLUE)
-        d.polygon([(cx + 6, cy - 10), (cx + 22, cy - 6), (cx + 6, cy - 2)], fill=RED)
-    elif n == 10:  # megaphone
+    elif n == 9:  # factory / strike (IG Metall)
+        d.rectangle([cx - 16, cy - 2, cx + 14, cy + 10], outline=INK, width=2)
+        d.rectangle([cx - 12, cy - 12, cx - 6, cy - 2], outline=INK, width=2)
+        d.rectangle([cx + 4, cy - 12, cx + 10, cy - 2], outline=INK, width=2)
+        d.line([(cx - 16, cy + 2), (cx + 14, cy + 2)], fill=INK, width=1)
+        d.polygon([(cx - 2, cy - 12), (cx + 18, cy - 8), (cx - 2, cy - 4)], fill=RED)
+    elif n == 10:  # chip (Anthropic / Nvidia)
+        d.rectangle([cx - 9, cy - 9, cx + 9, cy + 9], outline=INK, width=2)
+        d.rectangle([cx - 3, cy - 3, cx + 3, cy + 3], fill=BLUE)
+        for px in (-6, 0, 6):
+            d.line([(cx + px, cy - 13), (cx + px, cy - 9)], fill=INK, width=2)
+            d.line([(cx + px, cy + 9), (cx + px, cy + 13)], fill=INK, width=2)
+        d.line([(cx - 13, cy - 6), (cx - 9, cy - 6)], fill=INK, width=2)
+        d.line([(cx - 13, cy + 6), (cx - 9, cy + 6)], fill=INK, width=2)
+        d.line([(cx + 9, cy - 6), (cx + 13, cy - 6)], fill=INK, width=2)
+        d.line([(cx + 9, cy + 6), (cx + 13, cy + 6)], fill=INK, width=2)
+    elif n == 11:  # megaphone (Italy strike)
         d.polygon([(cx - 12, cy - 2), (cx + 4, cy - 10), (cx + 4, cy + 10), (cx - 12, cy + 5)], fill=AMBER)
         d.line([(cx - 12, cy - 2), (cx - 18, cy - 2)], fill=INK, width=3)
         d.line([(cx - 12, cy + 5), (cx - 18, cy + 5)], fill=INK, width=3)
-    elif n == 11:  # seismograph
-        d.line([(x0 + 10, cy), (x0 + 36, cy), (x0 + 43, cy - 9), (x0 + 50, cy + 9),
-                (x0 + 57, cy - 5), (x0 + 64, cy + 3), (x0 + 71, cy),
-                (x0 + 108, cy), (x0 + 115, cy - 7), (x0 + 122, cy + 7),
-                (x0 + 129, cy), (x0 + 172, cy)], fill=RED, width=2)
     elif n == 12:  # BepiColombo: Mercury + probe
         d.ellipse([cx - 20, cy - 9, cx - 2, cy + 9], fill=(176, 148, 120))
         d.ellipse([cx - 16, cy - 4, cx - 13, cy - 1], fill=(140, 112, 86))
@@ -459,9 +466,9 @@ def draw_world_map(d, x0, y0, w, h, stories):
         6: (0.94, 0.60),   # Xavier, Cook Islands
         7: (0.90, 0.22),   # Japan
         8: (0.58, 0.52),   # Gulf oil
-        9: (0.46, 0.20),   # Paris
-        10: (0.49, 0.32),  # Italy
-        11: (0.88, 0.76),  # Loyalty Islands
+        9: (0.50, 0.15),   # Germany strike (Berlin)
+        10: (0.24, 0.30),  # Anthropic / Nvidia (New York)
+        11: (0.52, 0.30),  # Italy strike (Rome)
         12: (0.44, 0.12),  # BepiColombo (ESA mission control, Darmstadt)
         13: (0.96, 0.82),  # Phillips, Wellington NZ
     }
